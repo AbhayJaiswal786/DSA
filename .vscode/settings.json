@@ -3,7 +3,8 @@
         "iostream": "cpp",
         "*.tcc": "cpp",
         "forward_list": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "string": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
