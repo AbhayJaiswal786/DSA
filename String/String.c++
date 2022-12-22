@@ -105,10 +105,7 @@ void rabin_carp_(string str,string key){
         for(int i=0;i<len_sub_str;i++){
             hash_sub_str=hash_sub_str + (sub_str[i]*pow(prime_no,len_sub_str-(i+1)));
         }  
-
-        
     }
-
 }
 
 void palindromic_string(string str){
@@ -133,6 +130,7 @@ void palindromic_string(string str){
         cout<<"It is not palindromic"<<endl;
     }
 }
+
  //maximum repeated character in string with n^2 complexity
 void max_repeated_character(string str){
     int max_count=0;

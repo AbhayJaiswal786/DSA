@@ -245,7 +245,8 @@ void Quick_Sort(int arr[], int n){
 
 }
 
-vector<int> twoSum(vector<int> &nums_vector, int target) {
+//O(nlog(n))
+void twoSum(vector<int> &nums_vector, int target) {
         int len=nums_vector.size();
 
         vector<pair<int,int>> vec;
@@ -274,9 +275,10 @@ vector<int> twoSum(vector<int> &nums_vector, int target) {
                 start++;
             }
         }
-        return output;
+        print_vector(output);
 }
         
+
 string first_palindromic_string_in_array(vector<string> &words){
     int len_w=words.size();
         
@@ -306,7 +308,8 @@ string first_palindromic_string_in_array(vector<string> &words){
         return output;
 }
 
-vector<pair<int,int>> frequency_of_element(int arr[],int n){
+// O(nlog(n))
+void frequency_of_element(int arr[],int n){
     sort(arr,arr+n);
     vector<pair<int,int>> vec;
     int count;
@@ -316,22 +319,132 @@ vector<pair<int,int>> frequency_of_element(int arr[],int n){
             count++;
             i++;
         }
-        vec[i-1].first=arr[i-1];
-        vec[i-1].second=count;
+        vec.push_back({arr[i-1],count});
     }
-    return vec;
+
+    // cout<<"\nVector Pair is:"<<endl;
+    // for(int i=0;i<vec.size();i++){
+    //     cout<<vec[i].first<<" "<<vec[i].second<<endl;
+    // }
+    print_vector_pair(vec);
 }
 
-void maximum_element(){
+//by using hashing
+// O(n)
+void frequency_of_element_alternative(int arr[],int n){
+    int max=*(max_element(arr,arr+n)); //maximum element
+
+    int freq_arr[max+1]={};   //freq array of size of maximum element of array to store frequency of element  and this array elements are 0 that is freq_arr[]={0,0,0,0,0,0,0,0,0,0}
+
+    for(int i=0;i<n;i++){
+        freq_arr[arr[i]]++;
+    }
+
+    //printing
+    for(int j=0;j<=max;j++){
+        if(freq_arr[j]>0){
+            cout<<j<<" : "<< freq_arr[j]<<" times occur"<<endl;
+        }
+    }
+}
+
+//by using hashing
+void maximum_number_occuring_element(int arr[],int n){
+    int max=*(max_element(arr,arr+n));
+
+    int freq_arr[max+1]={};
+
+    for(int i=0;i<n;i++){
+        freq_arr[arr[i]]++;
+    }
+
+    //index of maximum value of freq_arr is max_occuring_element
+    
+    int max_value_freq_arr=INT_MIN;
+    int max_occuring_element;
+    for(int j=0;j<max+1;j++){
+        if(freq_arr[j]>max_value_freq_arr){
+            max_value_freq_arr=freq_arr[j];
+            max_occuring_element=j;
+        }
+    }
+    cout<<"Maximum Time Occuring Element: "<< max_occuring_element<<endl;
 
 }
 
-void elements_occur_more_than_one(){
+//by using hashing
+void elements_occur_more_than_one(int arr[],int n){
+    int max=*(max_element(arr,arr+n)); //maximum element
+
+    int freq_arr[max+1]={};   //freq array of size of maximum element of array to store frequency of element  and this array elements are 0 that is freq_arr[]={0,0,0,0,0,0,0,0,0,0}
+
+    for(int i=0;i<n;i++){
+        freq_arr[arr[i]]++;
+    }
+
+    //printing
+    cout<<"Elements occur more than one time:"<<endl;
+    for(int j=0;j<=max;j++){
+        if(freq_arr[j]>1){
+            cout<<j<<" ";            
+        }
+    }
     
 }
 
+//by using hashing
+void arr2_subset_of_arr1(int arr1[],int arr1_size ,int arr2[],int arr2_size){
+    int max_elem_arr1=*(max_element(arr1,arr1+arr1_size));
+
+    int freq_arr[max_elem_arr1+1]={};
+
+    for(int i=0;i<arr1_size;i++){
+        freq_arr[arr1[i]]++;
+    }
+    bool flag;
+    for(int j=0;j<arr2_size;j++){
+        flag=false;
+        if(arr2[j]<max_elem_arr1+1 and freq_arr[arr2[j]]>=1){
+            flag=true;
+        }
+        if(flag==false){
+            cout<<"Arr2 is not subset of Arr1"<<endl;
+            break;
+        }
+    }
+    if(flag==true){
+        cout<<"Arr2 is subset of Arr1"<<endl;
+    }
+
+}
+
+// by using hashing
+//O(n)
+void two_sum_alternative(int arr[],int target,int n){
+
+    int max_elem_arr=*(max_element(arr,arr+n));    
+
+    int freq_arr[max_elem_arr+1]={};
+
+    for(int i=0;i<n;i++){
+        freq_arr[arr[i]]++;
+    }
+
+    vector<pair<int,int>> vec;
+    for(int j=0;j<n;j++){
+        if(target-arr[j]>=0 and target-arr[j]<=max_elem_arr){
+             if((freq_arr[target-arr[j]])>=1){
+                vec.push_back({arr[j], target-arr[j]});
+            }
+        }
+    }
+    print_vector_pair(vec);
+}
+
+
+
 int main(){
-    int arr[]={1,9,3,2,3,1,4,5,7};
+    int arr[]={1,3,2,3,1,4,5,7};
     int n=sizeof(arr)/sizeof(arr[0]);
 
     // int arr1[5]={-1,2,3,-2,5};
@@ -362,23 +475,37 @@ int main(){
     // Selection_Sort(arr,n);
     // Bubble_Sort(arr,n);
 
-    // Two_Sum Problem
+// Two_Sum Problem with O(nlog(n))
     // vector<int> nums={1,2,3,4,5};
     // int target_sum=5;
-    // vector<int> Index_Output=twoSum(nums,target_sum);
-    // cout<<"Output is :"<<endl;
-    // for(int i=0;i<Index_Output.size();i++){
-    //     cout<<Index_Output[i]<<" ";
-    // }
+    // twoSum(nums,target_sum);
 
-    //First_Palindromic_String_In_Array
+//First_Palindromic_String_In_Array
     // vector<string> string_={"abc","car","ada","racecar","cool"};
     // string first_palindromic_string=first_palindromic_string_in_array(string_);
     // cout<<first_palindromic_string;
 
-    //frequency_of_element
-    vector<pair<int,int>> output=frequency_of_element(arr,n);
-    print_vector_pair(output);
+// frequency_of_element with O(nlog(n)) complexity
+    // frequency_of_element(arr,n);
+
+//frequency_of_element alternative approach with O(n) complexity using hashing
+    // frequency_of_element_alternative(arr,n);
+
+    // maximum_number_occuring_element(arr,n);
+
+    // elements_occur_more_than_one(arr,n);
+
+    // int arr1[]={2,3,4,1,1,2};
+    // int arr2[]={2,1,3,4};
+    // int arr1_size=sizeof(arr1)/sizeof(arr1[0]);
+    // int arr2_size=sizeof(arr2)/sizeof(arr2[0]);
+    // arr2_subset_of_arr1(arr1,arr1_size,arr2,arr2_size);
+
+// Two_Sum Problem with O(n) time complexity
+    // int array[]={2,3,4,1,1,2};
+    // int target_sum=5;
+    // int n=sizeof(array)/sizeof(array[0]);
+    // two_sum_alternative(array,target_sum,n);
 
 
 

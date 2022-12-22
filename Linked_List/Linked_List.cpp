@@ -7,7 +7,7 @@ class node{
     node *next;
 
     node(){
-        data=0;
+        data=-1;
         next=NULL;
     }
 
@@ -28,13 +28,15 @@ int size_ll(node **head_add){
 }
 
 void insert_at_beginning(node **head,int new_data){
-    node *new_node=new node();
+    node *new_node=new node(new_data); // by using constructor we are creating here new_node->data=new_data; and new_node->next=NULL;
+    
+    if(*head==NULL){
+        *head=new_node;
+    }
 
-    new_node->data=new_data;
-
-    new_node->next=*head;
-
-    *head=new_node;
+    else{
+        new_node->next=*head;
+    }
 }
 
 void insert_after(node **prev_node_add,int new_data){
@@ -44,9 +46,7 @@ void insert_after(node **prev_node_add,int new_data){
         cout<<"Previous node cannot be null!";
     }
 
-    node *new_node=new node();
-
-    new_node->data=new_data;
+    node *new_node=new node(new_data);
 
     new_node->next=prev_node->next;
 
@@ -55,33 +55,25 @@ void insert_after(node **prev_node_add,int new_data){
 }
 
 void insert_at_end(node **head_add,int new_data){
-    node *new_node=new node();
-
-    new_node->data=new_data;
-
-    new_node->next=NULL;
+    node *new_node=new node(new_data);
 
     if(*head_add==NULL){
         *head_add=new_node;
     }
 
-    node *last=*head_add;
-    while(last->next!=NULL){
-        last=last->next;
-    }
+    node *temp=*head_add;
 
-    last->next=new_node;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=new_node;  
 
 }
 
-void insert_at_pos(node **head_add,int new_data,int pos){
-    node *head=*head_add;  //accessing original head 
+void insert_at_pos(node **head,int new_data,int pos){
+    node *new_node=new node(new_data);
 
-    node *new_node=new node();
-
-    new_node->data=new_data;
-
-    node *temp=head;
+    node *temp=*head;
 
     for(int i=0;i<pos-2;i++){
         temp=temp->next;
@@ -131,41 +123,33 @@ void print_linked_list(node **head){
     }
 }
 
-// print using single pointer
-
-// void print_linked_list(node *node){
-//     cout<<"Linked List is:"<<endl;
-//     while(node!=NULL){
-//         cout<<node->data<<" -> ";
-//         node=node->next;
-//     }
-// }
-
 //sort using bubble sort
 void sort(node **head_add){
     node *head, *node1, *node2;
 
     int n=size_ll(&head); //length
 
-    for(int i=0;i<=n;i++){
-        head=*head_add;
+    head=*head_add;
 
+    for(int i=0;i<=n;i++){
         for(int j=0;j<n-1;j++){
             node1=head;
             node2=head->next;
         }
 
         if(node1->data>node2->data){
-            
+            int temp = node1->data;
+            node1->data = node2->data;
+            node2->data = temp;                
         }
-
+       
     }
 
     
 }
 
 int main(){
-    node *head=new node(1); //head will be created with data 1 and next is null
+    node *head=NULL; //head will be created with data 1 and next is null
 
     //Insert in LL
 
