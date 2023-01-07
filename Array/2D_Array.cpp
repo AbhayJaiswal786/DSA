@@ -37,6 +37,14 @@ void transpose(int arr[3][3]){
     
 }
 
+void prefix_sum_2D(int arr[4][4]){
+    int prefix_sum[4][4];
+    for(int i=0;i<4;i++){
+        int sum=0;
+        for(int j=0;j<4;j++){
+            sum=
+        }    
+}
 int main(){
     int arr[3][3]={{2,4,7},{5,7,8},{4,5,6}};
 

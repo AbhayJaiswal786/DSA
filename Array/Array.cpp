@@ -38,6 +38,48 @@ void linear_search(int arr[],int n,int k){
     }
 }
 
+// int binary_search(int arr[],int key,int len_arr){
+//     int low=0,high=len_arr-1;
+
+//     while(low<=high){
+//         int mid=low+(high-low)/2;
+
+//         if(arr[mid]==key){
+//             return mid;
+//         }
+
+//         else if(key<arr[mid]){
+//             high=mid-1;
+//         }
+
+//         else{
+//             low=mid+1;
+//         }
+//     }
+//     return 0;
+// }
+
+void binary_search(int arr[],int key,int len_arr){
+    int low=0,high=len_arr-1;
+
+    while(low<=high){
+        int mid=low+(high-low)/2;
+
+        if(arr[mid]==key){
+            cout<<"Key match at index: "<<mid;
+            break;
+        }
+
+        else if(key<arr[mid]){
+            high=mid-1;
+        }
+
+        else{
+            low=mid+1;
+        }
+    }
+}
+
 void max_value(int arr[], int n){
     int max=INT_MIN; 
     for(int i=0;i<n;i++){
@@ -166,29 +208,6 @@ void kth_cyclic_rotation(int *arr,int n,int k){
 
 }
 
-void find_missing_values(){
-    // Find missing value in given sorted array
-    
-}
-
-
-
-void find_missing_values_with_binary_src(){
-
-}
-
-void find_no_of_occurences_with_binary_src(){
-
-}
-
-// given with three sorted arrays and find commom elements among them 
-
-void number_of_subsets(int arr[],int n,int sum){
-    // Arr[5]={7,12,14,19,13}; given array 
-    // Find subsets whose sum is sum(here sum is 19)
-    
-}
-
 // Selection Sort:- Find The minimum element in unsorted array and swap it with element at beginning.
 
 // Algorithm for Selection Sorting.
@@ -246,7 +265,7 @@ void Quick_Sort(int arr[], int n){
 }
 
 //O(nlog(n))
-void twoSum(vector<int> &nums_vector, int target) {
+vector<int> twoSum(vector<int> &nums_vector, int target) {
         int len=nums_vector.size();
 
         vector<pair<int,int>> vec;
@@ -263,10 +282,12 @@ void twoSum(vector<int> &nums_vector, int target) {
 
         // window sliding or two pointer approach used here and it is best for telling  
         while(start<end){
+            cout<<"Loop"<<endl;
             sum=vec[start].first+vec[end].first;
             if(sum==target){
                 output.push_back(vec[start].second);
                 output.push_back(vec[end].second);
+                break;
             }
             else if(sum>target){
                 end--;
@@ -275,7 +296,7 @@ void twoSum(vector<int> &nums_vector, int target) {
                 start++;
             }
         }
-        print_vector(output);
+        return output;
 }
         
 
@@ -441,11 +462,338 @@ void two_sum_alternative(int arr[],int target,int n){
     print_vector_pair(vec);
 }
 
+void array_concatenate(vector<int> arr){
+    int n=arr.size();
+    for(int i=0;i<n;i++){
+        arr.push_back(arr[i]);
+    }
+    print_vector(arr);
+}
+// given with three sorted arrays and find commom elements among them 
+
+void number_of_subsets(int arr[],int n,int sum){
+    // Arr[5]={7,12,14,19,13}; given array 
+    // Find subsets whose sum is sum(here sum is 19)
+    
+}
+
+//Remove duplicates from sorted array
+//Naive Approach
+vector<int> removeDuplicates_Naive_App(vector<int> &nums){
+    for(int i=0;i<(nums.size()-1);i++){
+        for(int j=i+1;j<(nums.size());j++){
+            if(nums.at(i)==nums.at(j)){
+                nums.erase(nums.begin()+j);
+                --j;
+            } 
+            if(nums.at(i)!=nums.at(j)){
+                break;
+            }
+        }
+    }
+    return nums;
+}
+
+//Two Pointer Approach 
+vector<int> removeDuplicates_Two_Pointer_App(vector<int> &nums){
+    
+
+}
+
+
+//Binary Search Problems
+
+int peakIndexInMountainArray(vector<int>& arr) {
+    // solution for this question is to find index of peak element in array
+    int low=0;int high=arr.size()-1;
+    
+    while(low<high){
+        int mid=(high+low)/2;
+        if(arr[mid]<arr[mid+1]){
+            low=mid+1;
+        }
+        else{
+            high=mid;
+        }
+    }
+    return low;
+}
+
+void find_missing_values(){
+    // Find missing value in given sorted array
+    
+}
+
+void find_missing_values_with_binary_src(){
+
+}
+
+void find_no_of_occurences_with_binary_src(){
+
+}
+
+// Find First and Last Position of Element in Sorted Array with binary_src
+// it is running in infinite loop
+
+// vector<int> first_last_position_of_element(vector<int>& nums, int target) {
+//     int low=0,high=nums.size()-1,mid;
+//     vector<int> positions(2,-1);  //initializing vector of size two with all value -1.
+//     while(low<=high){
+//         cout<<"Outer while loop"<<endl;
+//         mid=low+(high-low)/2;
+//         int first_position=mid,last_position=mid;
+//         if(nums[mid]==target){
+//             cout<<nums[mid]<<"target match"<<endl;
+//             while(nums[--first_position]==target && first_position>=0){
+//                 cout<<"checking for first position"<<endl;
+//                 positions[0]=first_position;
+//                 // break;
+//             }
+//             while(nums[++last_position]==target && first_position>=0){
+//                 cout<<"checking for last position"<<endl;
+//                 positions[1]=last_position;
+//                 // break;
+//             }
+//         }
+//         else if(nums[mid]>target){
+//             high=mid-1;
+//         }
+//         else{
+//             low=mid+1;
+//         }
+//     }
+//     return positions;
+// }
+
+// Find First and Last Position of Element in Sorted Array with binary_src
+//code after every corner case is checked and passed
+
+vector<int> first_last_position_of_element(vector<int>& nums, int target) {
+    int len=nums.size(),low=0,high=len-1,mid,first_position,last_position;
+
+    vector<int> positions(2,-1);  //initializing vector of size two with all value -1.
+
+    if(len==0){
+        return positions;
+    }
+
+    if(len==1){
+        if(nums[0]==target){
+            positions[0]=0;
+            positions[1]=0;
+            return positions;
+        }
+        else{
+            return positions;
+        }
+    }
+
+    while(low<=high){
+        mid=low+(high-low)/2;
+
+        if(nums[mid]==target){
+            first_position=mid;
+            last_position=mid;
+
+            positions[0]=first_position;
+            positions[1]=last_position;
+
+            break;
+        }
+        
+        else if(nums[mid]>target){
+            high=mid-1;
+        }
+        
+        else if(nums[mid]<target){
+            low=mid+1;
+        }
+        
+    }
+    
+    if(first_position-1>=0 && first_position-1<len){
+        while(nums[first_position-1]==target){
+            positions[0]=first_position-1;
+            first_position--;
+            if(first_position-1<0){
+                break;
+            }
+        }
+    }
+
+
+    if(last_position+1>=0 && last_position+1<len){
+        while(nums[last_position+1]==target ){
+            positions[1]=last_position+1;
+            last_position++;
+            if(last_position+1>=len){
+                break;
+            }
+        }
+    }
+    return positions;
+}
+
+
+//Arranging the coins as stair's steps
+// o
+// o o 
+// o o o 
+// o o o o  
+
+//Give the k numbers of stair's step completely formed with given n coins
+
+//naive approach 
+int arrangeCoins_naiveApproach(int coins){
+    int stairs=0,n=coins;
+
+    if(coins==1 || coins==2) return 1;
+    if(coins==3) return 2;
+
+    for(int i=1;i<n/2;i++){  //we are runnning loop till n/2 (n=number of coins) to reduce search space but it create problem for coins=1 and coins=3
+        if(i<=coins){
+            stairs++;
+            coins-=i; //remaining coins after each steps
+        }
+    }
+    return stairs;
+}
+
+//Binary Search Approach 
+// We use formula here s*(s+1)//2==coins  , here s = number of stairs
+int arrangeCoins_Bin_Src_Approach(int coins){
+    long low=0,high=coins,mid,value; 
+
+    while(low<=high){
+        mid=low+(high-low)/2; //choosing middle element as s to reduce search space
+
+        value=mid*(mid+1)/2; //value of formula 
+
+        if(value==coins){
+            return mid;
+        }
+
+        else if(value>coins){
+            high=mid-1;
+        }
+
+        else{
+            low=mid+1;
+        }
+        
+    }
+    return high;
+}
+
+// Kth Missing Positive Number 
+vector<int> findKthPositive(vector<int>& arr, int k) {
+    int len=arr.size();
+    vector<int> missing_numbers;
+
+    for(int i=1;i<=arr[len-1];i++){
+        for(int j=0;j<=i;j++){
+            if(i!=arr[j]){
+                missing_numbers.push_back(i);
+            }
+        } 
+    }
+    return missing_numbers;
+}
+
+//Search Insert Position
+int searchInsert(vector<int>& nums, int target) {
+    int low=0;
+    int high=nums.size()-1;
+
+    while(low<=high){
+        int mid=high-(high-low)/2; 
+
+        if(target==nums[mid]){
+            return mid;
+        }
+
+        else if(target<nums[mid]){
+            high=mid-1;
+            
+        }
+
+        else{
+            low=mid+1;
+        }
+    }    
+    return low;    
+}
+
+//Valid Perfect Square
+bool isPerfectSquare(int num) {
+    if(num==1) return true;
+    int low=2,high=num/2;
+    while(low<=high){
+        long long mid=low+(high-low)/2;
+        if(mid*mid==num){
+            return true;
+        }
+        else if(mid*mid>num){
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return false;
+}
+// Sqrt(x)
+int mySqrt(int num) {
+    if(num==0)return 0;
+    if(num==1)return 1;
+    int low=1,high=num/2,mid,ans;
+
+    while(low<=high){
+        mid=low+(high-low)/2;
+        if(mid==num/mid){  //mid*mid==num can be written as mid==num/mid to reduce int size 
+            return mid;
+        }
+        else if(mid<num/mid){ //mid*mid<num can be written as mid<num/mid to reduce int size 
+            low=mid+1;
+            ans=mid; 
+        }
+        else{
+            high=mid-1;
+        }
+    }   
+    return ans;     
+}
+
+// Find Smallest Letter Greater Than Target
+char nextGreatestLetter(vector<char>& letters, char target) {
+    int len=letters.size(),low=0,high=len-1,mid;
+    char ans;
+
+    while(low<=high){
+        mid=low+(high-low)/2;
+        if(!(letters[len-1]>target)){
+            ans=letters[0];
+        }
+        if(letters[mid]>target){
+            ans=letters[mid];
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }  
+    return ans;  
+}
+
 
 
 int main(){
     int arr[]={1,3,2,3,1,4,5,7};
     int n=sizeof(arr)/sizeof(arr[0]);
+
+    int sorted_arr[]={1,3,5,7,9,10,15};
+    int len_sorted_arr=sizeof(sorted_arr)/sizeof(sorted_arr[0]);
+    
 
     // int arr1[5]={-1,2,3,-2,5};
     // int arr2[5]={1,5,2,5,2};
@@ -453,6 +801,8 @@ int main(){
     // int ord_arr[10]={1,2,3,4,5,6,8,9,10};
 
     // linear_search(arr,n,1);
+    // binary_search(sorted_arr,5,len_sorted_arr);
+
     // max_value(arr,n);
     // min_value(arr,n);
     // reverse(arr,n);
@@ -477,8 +827,8 @@ int main(){
 
 // Two_Sum Problem with O(nlog(n))
     // vector<int> nums={1,2,3,4,5};
-    // int target_sum=5;
-    // twoSum(nums,target_sum);
+    // int target_sum=7;
+    // print_vector(twoSum(nums,target_sum));
 
 //First_Palindromic_String_In_Array
     // vector<string> string_={"abc","car","ada","racecar","cool"};
@@ -506,6 +856,48 @@ int main(){
     // int target_sum=5;
     // int n=sizeof(array)/sizeof(array[0]);
     // two_sum_alternative(array,target_sum,n);
+
+    // vector<int> vec={1,2,3,4};
+    // array_concatenate(vec);
+
+//Remove Duplicates From Sorted Array
+    vector<int> nums={0,0,1,1,1,2,2,3,3,4};
+    //Naive Approach
+    print_vector(removeDuplicates_Naive_App(nums));
+    //Two Pointer Approach
+    print_vector(removeDuplicates_Two_Pointer_App(nums));
+
+
+
+
+//Binary Search Problems
+
+//1.peak index in mountain array
+
+    // vector<int> mountain_array={2,50,30,5,3,2,1,0};
+    // cout<<"Peak Index: "<<peakIndexInMountainArray(mountain_array)<<endl;
+
+//2.Find First and Last Position of Element in Sorted Array with binary_src
+
+    // vector<int> nums={5,7,7,8,8,10};
+    // int target=8;
+    // cout<<"First and Last Position of "<<target<<" : "<<endl;
+    // vector<int> ans=first_last_position_of_element(nums,target);
+    // print_vector(ans);
+
+//3. Arranging the coins as stair's steps
+//     int coins=298888090;
+
+// //Naive Approach
+//     cout<<"NA_Number of stairs in "<<coins<<" coins :  "<<arrangeCoins_naiveApproach(coins)<<endl;
+
+// //Binary Search Approach
+//     cout<<"BS_Number of stairs in "<<coins<<" coins :  "<<arrangeCoins_Bin_Src_Approach(coins)<<endl;
+
+//4.Kth Missing Positive Number
+    // vector<int> vec={2,3,4,7,11};
+    // print_vector(findKthPositive(vec,5));
+
 
 
 

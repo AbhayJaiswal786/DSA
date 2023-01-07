@@ -36,6 +36,7 @@ void insert_at_beginning(node **head,int new_data){
 
     else{
         new_node->next=*head;
+        *head=new_node;
     }
 }
 
@@ -90,14 +91,14 @@ void delete_from_beginning(node **head){
 }
 
 void delete_from_end(node **head){
-    node *node=*head, *temp;
+    node *node1=*head, *node2;
 
-    while(node->next!=NULL){
-        temp=node;
-        node=node->next;
+    while(node1->next!=NULL){
+        node2=node1;
+        node1=node1->next;
     }
-    temp->next=NULL;
-    delete(node->next);
+    node2->next=NULL;
+    delete(node1->next);  //correction
 }
 
 void delete_from_pos(node **head,int idx){
@@ -144,8 +145,6 @@ void sort(node **head_add){
         }
        
     }
-
-    
 }
 
 int main(){

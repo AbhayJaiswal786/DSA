@@ -4,7 +4,8 @@
         "*.tcc": "cpp",
         "forward_list": "cpp",
         "ostream": "cpp",
-        "string": "c"
+        "string": "c",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
