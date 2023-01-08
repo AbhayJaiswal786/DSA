@@ -331,7 +331,7 @@ string first_palindromic_string_in_array(vector<string> &words){
 
 // O(nlog(n))
 void frequency_of_element(int arr[],int n){
-    sort(arr,arr+n);
+    sort(arr,arr+n); //O(nlogn)
     vector<pair<int,int>> vec;
     int count;
     for(int i=1;i<=n;i++){
@@ -469,21 +469,21 @@ void array_concatenate(vector<int> arr){
     }
     print_vector(arr);
 }
+
 // given with three sorted arrays and find commom elements among them 
 
 void number_of_subsets(int arr[],int n,int sum){
     // Arr[5]={7,12,14,19,13}; given array 
     // Find subsets whose sum is sum(here sum is 19)
-    
 }
 
 //Remove duplicates from sorted array
 //Naive Approach
 vector<int> removeDuplicates_Naive_App(vector<int> &nums){
-    for(int i=0;i<(nums.size()-1);i++){
+    for(int i=0;i<(nums.size()-1);i++){  
         for(int j=i+1;j<(nums.size());j++){
             if(nums.at(i)==nums.at(j)){
-                nums.erase(nums.begin()+j);
+                nums.erase(nums.begin()+j);   //remove element and reduce num.size() by moving all elements
                 --j;
             } 
             if(nums.at(i)!=nums.at(j)){
@@ -496,13 +496,19 @@ vector<int> removeDuplicates_Naive_App(vector<int> &nums){
 
 //Two Pointer Approach 
 vector<int> removeDuplicates_Two_Pointer_App(vector<int> &nums){
-    
-
+    int j;
+    for(int i=0;i<nums.size()-1;i++){
+        j=i+1;
+        if(nums.at(i)==nums.at(j)){
+            nums.erase(nums.begin()+j);
+            --i;
+        }
+    }
+    return nums;
 }
 
 
 //Binary Search Problems
-
 int peakIndexInMountainArray(vector<int>& arr) {
     // solution for this question is to find index of peak element in array
     int low=0;int high=arr.size()-1;
@@ -742,6 +748,7 @@ bool isPerfectSquare(int num) {
     }
     return false;
 }
+
 // Sqrt(x)
 int mySqrt(int num) {
     if(num==0)return 0;
@@ -784,8 +791,6 @@ char nextGreatestLetter(vector<char>& letters, char target) {
     }  
     return ans;  
 }
-
-
 
 int main(){
     int arr[]={1,3,2,3,1,4,5,7};
@@ -861,14 +866,12 @@ int main(){
     // array_concatenate(vec);
 
 //Remove Duplicates From Sorted Array
-    vector<int> nums={0,0,1,1,1,2,2,3,3,4};
-    //Naive Approach
-    print_vector(removeDuplicates_Naive_App(nums));
-    //Two Pointer Approach
-    print_vector(removeDuplicates_Two_Pointer_App(nums));
-
-
-
+    // vector<int> nums={7,7,8,8,8,9,9,10,10,10,11};
+    // //Naive Approach
+    // print_vector(removeDuplicates_Naive_App(nums));
+    // //Two Pointer Approach
+    // vector<int> num={7,7,8,8,8,9,9,10,10,10,11};
+    // print_vector(removeDuplicates_Two_Pointer_App(num));
 
 //Binary Search Problems
 
@@ -879,17 +882,17 @@ int main(){
 
 //2.Find First and Last Position of Element in Sorted Array with binary_src
 
-    // vector<int> nums={5,7,7,8,8,10};
-    // int target=8;
-    // cout<<"First and Last Position of "<<target<<" : "<<endl;
-    // vector<int> ans=first_last_position_of_element(nums,target);
-    // print_vector(ans);
+    vector<int> nums={5,7,7,8,8,10};
+    int target=8;
+    cout<<"First and Last Position of "<<target<<" : "<<endl;
+    print_vector(first_last_position_of_element(nums,target)); 
+
 
 //3. Arranging the coins as stair's steps
-//     int coins=298888090;
+    // int coins=298888090;
 
 // //Naive Approach
-//     cout<<"NA_Number of stairs in "<<coins<<" coins :  "<<arrangeCoins_naiveApproach(coins)<<endl;
+    // cout<<"NA_Number of stairs in "<<coins<<" coins :  "<<arrangeCoins_naiveApproach(coins)<<endl;
 
 // //Binary Search Approach
 //     cout<<"BS_Number of stairs in "<<coins<<" coins :  "<<arrangeCoins_Bin_Src_Approach(coins)<<endl;
@@ -898,9 +901,5 @@ int main(){
     // vector<int> vec={2,3,4,7,11};
     // print_vector(findKthPositive(vec,5));
 
-
-
-
 }
-
 
