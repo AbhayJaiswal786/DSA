@@ -188,15 +188,15 @@ void reverse_str_(string &str,int i,int high){ // we are passing string as refer
     }
 }
 
-bool checkPalindrome(string str,int i,int high){
-    if(i>high) return true;
+string checkPalindrome(string str,int i,int high){
+    if(i>=high) return "Palindrome";
 
-    if(str[i]!=str[high]){
-        return false;
+    if(str[i]==str[high]){
+        return checkPalindrome(str,i+1,high-1);
     }
 
     else{
-        return checkPalindrome(str,i++,high--);
+        return "Not Palindrome";
     }
 }
 
@@ -223,6 +223,84 @@ void Checking_Binary_Representation_of_N_is_Palindrome(int N){
     string result=(binary==reverse_binary)?"Palindrome!":"Not Palindrome!";
 
     cout<<"Binary Representation of "<<N<<" is "<<result;
+}
+
+void bubble_sort_using_rec(int *array,int n){
+    if(n==0 || n==1) return ;
+
+    for(int i=1;i<n;i++){
+        if(array[i-1]>array[i]){
+            swap(array[i-1],array[i]);
+        }
+    }
+
+    return bubble_sort_using_rec(array,n-1);
+}
+
+void subsets(vector<int> arr, vector<int> subset, vector<vector<int>> &power_set, int index){
+    // base case
+    if(index>=arr.size()){
+        power_set.push_back(subset);
+        return ;
+    }
+
+    //exclude
+    subsets(arr,subset,power_set,index+1);
+
+    //include
+    subset.push_back(arr[index]);
+    subsets(arr,subset,power_set,index+1);
+
+}
+
+//Number of subsets whose sum is sum.
+void number_of_subsets_equals_sum(vector<int> arr,int sum,vector<int> subset,int index,int &count){
+    if(index>=arr.size()){
+        if(accumulate(subset.begin(),subset.end(),0)==sum){ //checking the sum of elements of subset equals to sum or not 
+            count++;
+        }
+        return ;
+    }
+
+    //exclude
+    number_of_subsets_equals_sum(arr,sum,subset,index+1,count);
+
+    //include
+    subset.push_back(arr[index]);
+    number_of_subsets_equals_sum(arr,sum,subset,index+1,count);    
+}
+
+
+void subsequnces(string str, string subsequnce, vector<string> &Subsequences, int index){
+    //base case
+    if(index>=str.length()){
+        if(subsequnce.length()>0){ // we are using this condition to not insert blank string "" as subsequence
+            Subsequences.push_back(subsequnce);
+        }
+        return ;
+    }
+
+    //exclude
+    subsequnces(str,subsequnce,Subsequences,index+1);
+
+    //include
+    subsequnce+=str[index];
+    subsequnces(str,subsequnce,Subsequences,index+1);
+
+}
+
+void Permutation(string str, vector<string>&permutations,int index){
+    if(index>=str.length()){
+        permutations.push_back(str);
+        return ;
+    }
+
+    for(int i=index;i<str.length();i++){
+        swap(str[index],str[i]);
+        Permutation(str,permutations,index+1);
+
+        swap(str[i],str[index]);//backtrack to original str by reverse swapping
+    }
 }
 
 
@@ -284,7 +362,6 @@ int main(){
     // reverse_str_(str_,0,len_str_-1);
     // cout<<"Reverse of string: "<<str_<<endl;
     
-
 //checking palindrome 
     // string str="ada",original_str,result;
 
@@ -298,9 +375,86 @@ int main(){
 
     // cout<<result<<endl;
 
+    // cout<<checkPalindrome(str,0,len_str-1);
+
+
 //Check If Binary Representation of a Number is Palindrome
     // int N=15;
     // Checking_Binary_Representation_of_N_is_Palindrome(N);
     
-//
+    
+//Bubble Sort
+    // int arr[]={9,7,50,10,1,2,0},n;
+    // n=sizeof(arr)/sizeof(arr[0]);
+
+    // bubble_sort_using_rec(arr,n);
+
+    // cout<<"Array:"<<endl;
+    // for(int i=0;i<n;i++){
+    //     cout<<arr[i]<<" ";
+    // }
+
+
+//Subsets 
+// Power Set is set of all subsets and number of elements in it 2^n including blank array (n is number of elements in array)
+   
+    // vector<int> arr={7,12,14,19,13},subset;
+    // vector<vector<int>>power_set;
+
+    // subsets(arr,subset,power_set,0);
+
+    // cout<<"\nSubsets are:"<<endl;
+    // for(int i=0;i<power_set.size();i++){
+    //     cout<<"{ ";
+    //     for(int j=0;j<power_set[i].size();j++){
+    //         cout<<power_set[i][j]<<" ";        
+    //     }
+    //     cout<<"}"<<" ";
+    // }   
+    // cout<<endl;
+
+
+
+//Number of subsets whose sum is sum.
+    // vector<int> Arr={7,12,14,19,13},subset;
+    // int sum=19; 
+    // int count=0,index=0;
+    // number_of_subsets_equals_sum(Arr,sum,subset,index,count);
+    // cout<<"Number of Subsets that equals to "<<sum<<" are "<<count;
+    
+
+
+//Subsequences 
+// if size of string is n then Number of subsequences are 2^n - 1 excluding blank string ("")
+    
+    // string str="abcd",subsequnce="";
+    // vector<string> Subsequences;
+
+    // subsequnces(str,subsequnce,Subsequences,0);
+
+    // cout<<"\nSubsequences are:"<<endl;
+
+    // cout<<"[ ";
+    // for(int j=0;j<Subsequences.size();j++){
+    //     cout<<"\""<<Subsequences[j]<<"\""<<" ";        
+    // }
+    // cout<<"]"<<endl;
+
+
+
+//Permutations of string 
+// If number of characters in string is n then Number of Permutations will be n!
+
+//    string str="abcde";
+//    vector<string>permutations;
+
+//    Permutation(str,permutations,0);
+
+//    cout<<"Permutations are:"<<endl;
+//    cout<<"[ ";
+//    for(int j=0;j<permutations.size();j++){
+//         cout<<"\""<<permutations[j]<<"\""<<"  ";        
+//    }
+//    cout<<"]"<<endl;
+
 }

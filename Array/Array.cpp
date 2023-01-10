@@ -22,13 +22,6 @@ void print_vector_pair(vector<pair<int,int>> vec){
     }
 }
 
-// void print_vector(vector<int> vec,int n){
-//     cout<<"\nVector is:"<<endl;
-//     for(int i=0;i<n;i++){
-//         cout<<vec[i]<<" ";
-//     }
-// }
-
 
 void linear_search(int arr[],int n,int k){
     for(int i=0;i<n;i++){
@@ -37,27 +30,6 @@ void linear_search(int arr[],int n,int k){
         }
     }
 }
-
-// int binary_search(int arr[],int key,int len_arr){
-//     int low=0,high=len_arr-1;
-
-//     while(low<=high){
-//         int mid=low+(high-low)/2;
-
-//         if(arr[mid]==key){
-//             return mid;
-//         }
-
-//         else if(key<arr[mid]){
-//             high=mid-1;
-//         }
-
-//         else{
-//             low=mid+1;
-//         }
-//     }
-//     return 0;
-// }
 
 void binary_search(int arr[],int key,int len_arr){
     int low=0,high=len_arr-1;
@@ -118,7 +90,7 @@ void reverse(int arr[],int n){
 void swap_alternative(int arr[],int n){
     int i=0;
     while(i<n){
-        if(i+1<n){  //checking for alternate element for swapping is in n range.
+        if(i+1<n){  //checking for alternative element is in n range for swapping.
             swap(arr[i],arr[i+1]);
         }
         i+=2; //jump to next to next element.
@@ -153,17 +125,23 @@ void sum(int *arr,int n){
     cout<<"sum:"<<sum<<endl;
 }
 
-// void seperate_neg_pos(int *arr, int n){
-//     for(int i=0;i<n;i++){
-//         for(int j=i+1;j<n;j++){
-            
-//         }
-        
-//     }
+void seperate_neg_pos(int *arr, int n){
+    for(int i=0;i<n;i++){
+        for(int j=1;j<n-i;j++){
+            if(arr[j-1]>arr[j]){
+                swap(arr[j-1],arr[j]);
+            }
+        }
+    }
+    print_array(arr,n);
+}
 
-// void kth_smallest_element(int *arr,int k){
-    
-// }
+void kth_smallest_element(int *arr,int k,int len){
+    sort(arr,arr+len);
+
+    cout<<"\n"<<k<<"th smallest element is: "<<arr[k-1];
+
+}
 
 void cyclic_rotation(int *arr, int n){
     int last_element=arr[n-1];
@@ -342,11 +320,6 @@ void frequency_of_element(int arr[],int n){
         }
         vec.push_back({arr[i-1],count});
     }
-
-    // cout<<"\nVector Pair is:"<<endl;
-    // for(int i=0;i<vec.size();i++){
-    //     cout<<vec[i].first<<" "<<vec[i].second<<endl;
-    // }
     print_vector_pair(vec);
 }
 
@@ -472,10 +445,6 @@ void array_concatenate(vector<int> arr){
 
 // given with three sorted arrays and find commom elements among them 
 
-void number_of_subsets(int arr[],int n,int sum){
-    // Arr[5]={7,12,14,19,13}; given array 
-    // Find subsets whose sum is sum(here sum is 19)
-}
 
 //Remove duplicates from sorted array
 //Naive Approach
@@ -800,7 +769,8 @@ int main(){
     int len_sorted_arr=sizeof(sorted_arr)/sizeof(sorted_arr[0]);
     
 
-    // int arr1[5]={-1,2,3,-2,5};
+    int arr1[5]={-1,2,3,-2,5};
+    int len=sizeof(arr1)/sizeof(arr1[1]);
     // int arr2[5]={1,5,2,5,2};
     // int Arr[5]={7,12,14,19,13};
     // int ord_arr[10]={1,2,3,4,5,6,8,9,10};
@@ -815,8 +785,8 @@ int main(){
 
     // sum(arr,n);
     // odd_even(arr,n);
-    // // seperate_neg_pos(arr1,n);
-    // // kth_smallest_element(arr,4);
+    // seperate_neg_pos(arr1,len);
+    // kth_smallest_element(arr,4,n);
     
 
     // cyclic_rotation(arr,n);
@@ -882,10 +852,10 @@ int main(){
 
 //2.Find First and Last Position of Element in Sorted Array with binary_src
 
-    vector<int> nums={5,7,7,8,8,10};
-    int target=8;
-    cout<<"First and Last Position of "<<target<<" : "<<endl;
-    print_vector(first_last_position_of_element(nums,target)); 
+    // vector<int> nums={5,7,7,8,8,10};
+    // int target=8;
+    // cout<<"First and Last Position of "<<target<<" : "<<endl;
+    // print_vector(first_last_position_of_element(nums,target)); 
 
 
 //3. Arranging the coins as stair's steps
