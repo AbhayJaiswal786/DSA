@@ -183,6 +183,7 @@ void remove_duplicate_character(string str){
     cout<<"String after with unique elements: "<<str<<endl;
 }
 
+
 //remove duplicate element or find unique elements
 // O(nlogn) complexity
 void remove_duplicate_character_alternative(string str){
@@ -227,9 +228,12 @@ int main(){
 
     // max_repeated_character_alternative("abaaccdeeaee");
 
-    remove_duplicate_character("abaaccdeeaee");
+    // remove_duplicate_character("abaaccdeeaee");
     
-    remove_duplicate_character_alternative("abaaccdeeaee");
+    // remove_duplicate_character_alternative("abaaccdeeaee");
+
+    //using constructor to reverse string 
+    // string rev = string(str.rbegin(), str.rend());   
 
     }
 

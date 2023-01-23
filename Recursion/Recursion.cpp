@@ -1,4 +1,6 @@
 #include<bits/stdc++.h>
+#include "C:\Users\asus1\OneDrive\Attachments\__Programming\Winning Camp\DSA\Array\Print.cpp"
+
 using namespace std;
 
 int pow(int base, int power){
@@ -63,10 +65,11 @@ int fibonacci(int n){
     if(n==1){
         return 1;
     }
+    cout<<n;
     return fibonacci(n-1)+fibonacci(n-2);
 }
 
-int factorial(int n){
+long double factorial(long double n){
     if(n==1) return 1;
 
     return n*factorial(n-1);
@@ -147,26 +150,27 @@ bool linear_search_rec(int arr[],int n,int key){
 // }
 
 
-int binary_search_rec(int arr[],int high,int low,int key){
-    //base case 
-    //element not found
-    if(low>high){
-        return -1; //if element not found return -1
-    }
-    //element found
-    int mid=low+(high-low)/2;
-    if(arr[mid]==key){
-        return mid;
-    }
+// int binary_search_rec(int arr[],int high,int low,int key){
+//     //base case 
+//     //element not found
+//     if(low>high){
+//         return -1; //if element not found return -1
+//     }
+//     //element found
+//     int mid=low+(high-low)/2;
+//     if(arr[mid]==key){
+//         return mid;
+//     }
 
-    //recursive relation
-    if(key<arr[mid]){
-        binary_search_rec(arr,mid-1,low,key);
-    }
-    else{
-        binary_search_rec(arr,high,mid+1,key);
-    }
-}
+//     //recursive relation
+//     if(key<arr[mid]){
+//         binary_search_rec(arr,mid-1,low,key);
+//     }
+//     else{
+//         binary_search_rec(arr,high,mid+1,key);
+//     }
+// }
+
 
 //using two pointer
 void reverse_str(string &str,int low,int high){ // we are passing string as reference whatever changes happen it will directly change in original string 
@@ -233,9 +237,10 @@ void bubble_sort_using_rec(int *array,int n){
             swap(array[i-1],array[i]);
         }
     }
-
     return bubble_sort_using_rec(array,n-1);
 }
+
+//Subsets
 
 void subsets(vector<int> arr, vector<int> subset, vector<vector<int>> &power_set, int index){
     // base case
@@ -253,6 +258,27 @@ void subsets(vector<int> arr, vector<int> subset, vector<vector<int>> &power_set
 
 }
 
+//All Subsets without duplicate subsets 
+
+void all_subsets_without_duplicate_subsets(vector<int> arr, vector<int> subset, vector<vector<int>> &power_set, int index){
+    // base case
+    if(index>=arr.size()){
+        if((find(power_set.begin(), power_set.end(), subset))==power_set.end()){
+                power_set.push_back(subset);
+        }
+        return ;
+    }
+
+    //exclude
+    all_subsets_without_duplicate_subsets(arr,subset,power_set,index+1);
+
+    //include
+    subset.push_back(arr[index]);
+    all_subsets_without_duplicate_subsets(arr,subset,power_set,index+1);
+
+}
+
+
 //Number of subsets whose sum is sum.
 void number_of_subsets_equals_sum(vector<int> arr,int sum,vector<int> subset,int index,int &count){
     if(index>=arr.size()){
@@ -269,6 +295,26 @@ void number_of_subsets_equals_sum(vector<int> arr,int sum,vector<int> subset,int
     subset.push_back(arr[index]);
     number_of_subsets_equals_sum(arr,sum,subset,index+1,count);    
 }
+
+//Number of pair whose sum is sum.
+void number_of_pair_equals_sum(vector<int> arr,int sum,vector<int> subset,vector<vector<int>> &pair_set_equals_sum,int index,int &count){
+    if(index>=arr.size()){
+        if(accumulate(subset.begin(),subset.end(),0)==sum && subset.size()==2){ //checking the sum of elements of subset having size 2(pair subset) equals to sum or not 
+            count++;
+            pair_set_equals_sum.push_back(subset);
+        }
+        return ;
+    }
+
+    //exclude
+    number_of_pair_equals_sum(arr,sum,subset, pair_set_equals_sum,index+1,count);
+
+    //include
+    subset.push_back(arr[index]);
+    number_of_pair_equals_sum(arr,sum,subset, pair_set_equals_sum,index+1,count);    
+
+}
+
 
 
 void subsequnces(string str, string subsequnce, vector<string> &Subsequences, int index){
@@ -288,6 +334,26 @@ void subsequnces(string str, string subsequnce, vector<string> &Subsequences, in
     subsequnces(str,subsequnce,Subsequences,index+1);
 
 }
+
+
+void Phone_Keypad_Problem(string digits,vector<string> &combinations, string mapping[],string output, int index){
+    //base case
+    if(index>=digits.length()){
+        combinations.push_back(output);
+        return ;
+    }
+    int digit=digits[index]-'0'; // substracting '1' from '0' will give int value of 1
+
+    string value=mapping[digit]; //value is digit mapped string 
+
+    for(int i=0;i<value.length();i++){
+        output.push_back(value[i]);
+        Phone_Keypad_Problem(digits, combinations, mapping, output, index+1);
+        output.pop_back();  // 
+    }
+
+}
+
 
 void Permutation(string str, vector<string>&permutations,int index){
     if(index>=str.length()){
@@ -320,7 +386,7 @@ int main(){
     // cout<<fibonacci(6);
     // cout<<endl;
 
-    // cout<<factorial(4)<<endl;
+    // cout<<factorial(100)<<endl;
 
 // Say Digits Problem
     // int num=412;
@@ -382,47 +448,67 @@ int main(){
     // int N=15;
     // Checking_Binary_Representation_of_N_is_Palindrome(N);
     
-    
+
 //Bubble Sort
     // int arr[]={9,7,50,10,1,2,0},n;
     // n=sizeof(arr)/sizeof(arr[0]);
 
     // bubble_sort_using_rec(arr,n);
-
-    // cout<<"Array:"<<endl;
-    // for(int i=0;i<n;i++){
-    //     cout<<arr[i]<<" ";
-    // }
+    // print_array(arr,n);
 
 
 //Subsets 
-// Power Set is set of all subsets and number of elements in it 2^n including blank array (n is number of elements in array)
-   
-    // vector<int> arr={7,12,14,19,13},subset;
-    // vector<vector<int>>power_set;
+// Power Set is set of all subsets ; number of elements in it 2^n including blank array (n is number of elements in array)
 
-    // subsets(arr,subset,power_set,0);
+//It is for array with unique elements , and if array with unique elements then it will give unique subsets
 
-    // cout<<"\nSubsets are:"<<endl;
-    // for(int i=0;i<power_set.size();i++){
-    //     cout<<"{ ";
-    //     for(int j=0;j<power_set[i].size();j++){
-    //         cout<<power_set[i][j]<<" ";        
-    //     }
-    //     cout<<"}"<<" ";
-    // }   
-    // cout<<endl;
+// If we'll give array with duplicate elements then it will give duplicate subsets too
 
+    vector<int> arr={1,2,3,-2,5},subset;
+    vector<vector<int>>power_set;
+
+    subsets(arr,subset,power_set,0);
+
+    cout<<"\nSubsets are:"<<endl;
+    print_2D_vector(power_set);
+    cout<<endl;
 
 
 //Number of subsets whose sum is sum.
-    // vector<int> Arr={7,12,14,19,13},subset;
-    // int sum=19; 
+    // vector<int> Arr={1,1,1,1},subset;
+    // int sum=2; 
     // int count=0,index=0;
     // number_of_subsets_equals_sum(Arr,sum,subset,index,count);
     // cout<<"Number of Subsets that equals to "<<sum<<" are "<<count;
     
+//Number of pair whose sum is sum.
+    // vector<int> Arr={1,1,1,1},subset;
+    // int sum=2; 
 
+    // vector<vector<int>>pair_set_equals_sum;
+    // int count=0,index=0;
+
+    // number_of_pair_equals_sum(Arr,sum,subset,pair_set_equals_sum,index,count);
+
+    // cout<<"Number of Pairs that equals to "<<sum<<" are "<<count<<endl;
+    // cout<<"Pairs are:"<<endl;
+    // print_2D_vector(pair_set_equals_sum);
+    
+
+//All Subsets without duplicate subsets ;
+//It is for array with duplicate elements and want unique subset
+// Note: (1,2,2) or (2,2,1) or (2,1,2) ; all are duplicate subset of (1,2,2)
+
+    // vector<int> arr={1,2,3,-2,5},subset;
+    // vector<vector<int>>power_set;
+
+    // //wrong output , it is still giving duplicate subsets
+    // all_subsets_without_duplicate_subsets(arr,subset,power_set,0);
+
+    // cout<<"\nSubsets are:"<<endl;
+    // print_2D_vector(power_set);
+    // cout<<endl;
+    
 
 //Subsequences 
 // if size of string is n then Number of subsequences are 2^n - 1 excluding blank string ("")
@@ -442,6 +528,23 @@ int main(){
 
 
 
+//Phone Keypad Problem -- Letter Combinations of Phone Number 
+
+    // string digits="236";
+    // vector<string> combinations;
+    // string mapping[10]={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    // string output="";
+    // int index=0;
+
+    // Phone_Keypad_Problem(digits,combinations,mapping,output,index);
+
+    // cout<<"Combinations are: "<<endl;
+    // for(int i=0;i<combinations.size();i++){
+    //     cout<<"\""<<combinations[i]<<"\""<<" ";
+    // }
+    // cout<<endl;
+
+    
 //Permutations of string 
 // If number of characters in string is n then Number of Permutations will be n!
 
