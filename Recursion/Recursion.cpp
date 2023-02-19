@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include "C:\Users\asus1\OneDrive\Attachments\__Programming\Winning Camp\DSA\Array\Print.cpp"
+#include "C:\Users\asus1\OneDrive\Attachments\__Programming\Winning Camp\DSA\_Shortcut.cpp"
 
 using namespace std;
 
@@ -57,7 +57,6 @@ void print_upto_n_dec_order(int n){
     print_upto_n_dec_order(n-1);
 }
 
-//wrong
 int fibonacci(int n){
     if(n==0){
         return 0;
@@ -65,7 +64,6 @@ int fibonacci(int n){
     if(n==1){
         return 1;
     }
-    cout<<n;
     return fibonacci(n-1)+fibonacci(n-2);
 }
 
@@ -74,6 +72,7 @@ long double factorial(long double n){
 
     return n*factorial(n-1);
 }
+
 
 void say_digits(int n,string digits_to_words[]){
     // base case
@@ -229,6 +228,7 @@ void Checking_Binary_Representation_of_N_is_Palindrome(int N){
     cout<<"Binary Representation of "<<N<<" is "<<result;
 }
 
+
 void bubble_sort_using_rec(int *array,int n){
     if(n==0 || n==1) return ;
 
@@ -282,8 +282,9 @@ void all_subsets_without_duplicate_subsets(vector<int> arr, vector<int> subset, 
 //Number of subsets whose sum is sum.
 void number_of_subsets_equals_sum(vector<int> arr,int sum,vector<int> subset,int index,int &count){
     if(index>=arr.size()){
-        if(accumulate(subset.begin(),subset.end(),0)==sum){ //checking the sum of elements of subset equals to sum or not 
-            count++;
+        if(subset.size()>0 && ((*max_element(subset.begin(), subset.end()) +
+            *min_element(subset.begin(), subset.end()) )) <=sum ){ 
+                count++;
         }
         return ;
     }
@@ -295,6 +296,7 @@ void number_of_subsets_equals_sum(vector<int> arr,int sum,vector<int> subset,int
     subset.push_back(arr[index]);
     number_of_subsets_equals_sum(arr,sum,subset,index+1,count);    
 }
+
 
 //Number of pair whose sum is sum.
 void number_of_pair_equals_sum(vector<int> arr,int sum,vector<int> subset,vector<vector<int>> &pair_set_equals_sum,int index,int &count){
@@ -314,7 +316,6 @@ void number_of_pair_equals_sum(vector<int> arr,int sum,vector<int> subset,vector
     number_of_pair_equals_sum(arr,sum,subset, pair_set_equals_sum,index+1,count);    
 
 }
-
 
 
 void subsequnces(string str, string subsequnce, vector<string> &Subsequences, int index){
@@ -370,6 +371,7 @@ void Permutation(string str, vector<string>&permutations,int index){
 }
 
 
+
 int main(){
     // cout<<pow(2,10)<<endl;
 
@@ -386,7 +388,7 @@ int main(){
     // cout<<fibonacci(6);
     // cout<<endl;
 
-    // cout<<factorial(100)<<endl;
+    cout<<factorial(100)<<endl;
 
 // Say Digits Problem
     // int num=412;
@@ -464,19 +466,19 @@ int main(){
 
 // If we'll give array with duplicate elements then it will give duplicate subsets too
 
-    vector<int> arr={1,2,3,-2,5},subset;
-    vector<vector<int>>power_set;
+    // vector<int> arr={1,2,3,-2,5},subset;
+    // vector<vector<int>>power_set;
 
-    subsets(arr,subset,power_set,0);
+    // subsets(arr,subset,power_set,0);
 
-    cout<<"\nSubsets are:"<<endl;
-    print_2D_vector(power_set);
-    cout<<endl;
+    // cout<<"\nSubsets are:"<<endl;
+    // print_2D_vector(power_set);
+    // cout<<endl;
 
 
 //Number of subsets whose sum is sum.
-    // vector<int> Arr={1,1,1,1},subset;
-    // int sum=2; 
+    // vector<int> Arr={3,5,6,7},subset;
+    // int sum=9; 
     // int count=0,index=0;
     // number_of_subsets_equals_sum(Arr,sum,subset,index,count);
     // cout<<"Number of Subsets that equals to "<<sum<<" are "<<count;
@@ -559,5 +561,7 @@ int main(){
 //         cout<<"\""<<permutations[j]<<"\""<<"  ";        
 //    }
 //    cout<<"]"<<endl;
+
+
 
 }

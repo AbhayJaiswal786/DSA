@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
-#include "C:\\Users\\asus1\\OneDrive\\Attachments\\__Programming\\Winning Camp\\DSA\\Array\\Print.cpp"
+#include "C:\\Users\\asus1\\OneDrive\\Attachments\\__Programming\\Winning Camp\\DSA\\_Shortcut.cpp"
+
 using namespace std;
 
 void linear_search(int arr[],int n,int k){
@@ -426,6 +427,120 @@ void two_sum_alternative(int arr[],int target,int n){
     print_vector_pair(vec);
 }
 
+// Three Sum ; find triplets whose whole sum is zero
+
+//naive approach : 
+// O(n^3.logm) ; n^3 for three nested loop and logm for inserting 'm' elements in set
+vector<vector<int>> threeSum_NA(vector<int>& nums) {
+    
+    sort(nums.begin(), nums.end());
+
+    int len = nums.size();
+
+    set<vector<int>> triplet_set;
+    
+    for(int i=0; i<len; i++){
+        for(int j=i+1; j<len; j++){
+            for(int k=j+1; k<len; k++){
+                if(nums[i] + nums[j] + nums[k] == 0 ){
+                    triplet_set.insert( {nums[i] , nums[j] , nums[k]} );
+                }
+            }
+        }
+    } 
+
+    vector<vector<int>> triplets;
+
+    for(auto itr : triplet_set){
+        triplets.push_back(itr);
+    }
+
+    return triplets;   
+}
+
+//better approach:
+// O(n^2.logm) ; n^2 for two nested loop and logm for inserting 'm' elements in set
+
+// in this we will be using two loops for first & second element, and for third element we will use hashing(hashmap; in which we will search for third element -(first_ele + sec_ele)  occourence must be > 0)
+
+vector<vector<int>> threeSum_BA(vector<int>& nums) {
+    
+    int len = nums.size();
+
+    set<vector<int>> triplet_set;
+
+    map<int, int> hm;
+
+    for(int i=0; i<len; i++){
+        hm[nums[i]]++;    
+    }
+    
+    for(int i=0; i<len; i++){ 
+        hm[nums[i]]--;  //important step ; reducing counting of element nums[i] ... so that it'll be not considered twice in this iteration
+        for(int j=i+1; j<len; j++){
+            hm[nums[j]]--; //important step ; reducing counting of element nums[j] ... so that it'll be not considered twice in this iteration
+            
+            if(hm[0-(nums[i] + nums[j])] > 0 ){ //searching presence for third element(-(first_ele + sec_ele)) in hashmap
+                vector<int> temp_vec;
+                temp_vec.push_back(nums[i]); //first element 
+                temp_vec.push_back(nums[j]); //second element 
+                temp_vec.push_back(-(nums[i] + nums[j])); //third element
+
+                sort(temp_vec.begin(), temp_vec.end()); // sorting before inserting in set is important ... so that triplets with unsorted & same element can not be considered again in set
+
+                triplet_set.insert( temp_vec ); //O(logm)
+            }
+            hm[nums[j]]++; //important step ; increasing counting of element nums[j] ... so that it can be considered for next iteration
+        }
+        hm[nums[i]]++;  //important step ; increasing counting of element nums[i] ... so that it can be considered for next iteration
+    }
+    
+
+    vector<vector<int>> triplets;
+    for(auto itr : triplet_set){
+        triplets.push_back(itr);
+    }
+
+    return triplets;   
+}
+
+//Optimal Approach
+vector<vector<int>> threeSum_OA(vector<int>& nums){
+    int len = nums.size();
+
+    sort(nums.begin(), nums.end());
+    
+    vector<vector<int>> triplets;
+
+    for(int i=0; i<len; i++){  //for pointing first element ; nums[i]
+
+        if(i>0 && nums[i]==nums[i-1]) continue; // to ignore duplicate first elements 
+
+        int low=i+1; //for pointing second element
+        int high=len-1; //for pointing third element
+
+        while(low<high){
+            if(nums[low] + nums[high] == 0 - nums[i]){ // checking (second ele + third ele) = -(first ele)
+                triplets.push_back({nums[i], nums[low], nums[high]});
+                
+                while(low<high && nums[low] == nums[low+1]) low++; //to not consider second ele(duplicate) again in triplet 
+                while(low<high && nums[high] == nums[high-1]) high--; //to not consider third ele(duplicate) again in triplet 
+
+                low++;
+                high--;
+
+            }
+
+            else if (nums[low] + nums[high] < 0 - nums[i]) low++; //if sum of second ele & third elem is less than first element, increase low to make sum higher (because nums is sorted )
+
+            else high--;  //if sum of second ele & third elem is greater than first element, decrease high to make sum lower (because nums is sorted )
+        }
+    }
+
+    return triplets;   
+}
+
+
 // given with three sorted arrays and find commom elements among them 
 
 int isCommon(int *stu_list, int strength, int key){
@@ -577,6 +692,17 @@ int main(){
 
     // vector<int> vec={1,2,3,4};
     // array_concatenate(vec);
+
+// Three Sum Problem ; find triplet whose sum is zero
+    vector<int> nums={-1,0,1,2,3,-4,-5};
+
+    // with naive approach : TC - O(n^3.logm)
+    print_2D_vector(threeSum_NA(nums));
+    // with better approach : TC - O(n^2.logm)
+    print_2D_vector(threeSum_BA(nums));
+    // with optimized approach : TC - O(n^2)
+    print_2D_vector(threeSum_OA(nums));
+
 
 // given with three sorted arrays and find commom elements among them 
 

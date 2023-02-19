@@ -82,5 +82,7 @@
         "typeinfo": "cpp",
         "valarray": "cpp"
     },
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "editor.fontSize": 16,
+    "code-runner.runInTerminal": true
 }
