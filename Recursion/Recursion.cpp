@@ -3,6 +3,24 @@
 
 using namespace std;
 
+void reverse(vector<int> &arr, int l, int r){
+    //base case
+    if(l>=r) return ;
+
+    swap(arr[l], arr[r]);
+    reverse(arr, l+1, r-1);
+}
+
+void rev_arr_2(vector<int> arr, int i, int n){
+    //base case
+    if(i>n/2) return ;
+
+    swap(arr[i], arr[n-i-1]);
+    rev_arr_2(arr,i+1,n);
+}
+
+
+
 int pow(int base, int power){
     //base case
     if(power==0)return 1;
@@ -10,6 +28,7 @@ int pow(int base, int power){
     //recursive relation    
     return base*pow(base,power-1);
 }
+
 
 //optimized way to find power(a^b)
 //a^b=(a^b/2)*(a^b/2) ; if b is even 
@@ -74,7 +93,7 @@ long double factorial(long double n){
 }
 
 
-void say_digits(int n,string digits_to_words[]){
+void say_digits(int n, string digits_to_words[]){
     // base case
     if(n==0)return ;
 

@@ -140,6 +140,27 @@ void reverseVowels(string &s)
 }
 
 
+int Longest_Valid_Substring(string s){
+    stack<int> st;
+    st.push(-1);
+
+    int longest_valid = 0;
+
+    for(int i = 0; i<s.length(); i++){
+        if(s[i] == '(') st.push(i);
+
+        else if(s[i] == ')'){
+            if(st.size()) st.pop();
+
+            if(st.size()) longest_valid = max(longest_valid, i-st.top()); // update maximum longest valid substring size
+
+            else st.push(i); //if there is no matching brackets 
+        }
+    }
+
+    return longest_valid;
+}
+
 int prefix_expression_evaluation(string expression)
 {
     int len = expression.length();
@@ -1065,8 +1086,9 @@ int main()
     // reverseVowels(s);
     // cout<<"\nString with reversed vowels: "<<s<<endl;
 
-
-
+// Longest Valid Substring
+    string s = "(((()))(()()()(()()()(()(()()()(()(()(()(()";
+    cout<<"Longest Valid Substring Size : "<<Longest_Valid_Substring(s);
 
 
 //delete middle element of a stack.
@@ -1172,8 +1194,8 @@ int main()
 
 
 
-    // vector<int> A = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
-    // int n = A.size();
+    vector<int> A = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+    int n = A.size();
 
 //Previous Smallest Element
     // vector<int> PS=previous_smallest_element(A,n);

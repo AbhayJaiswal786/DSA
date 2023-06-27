@@ -2,7 +2,6 @@
 #include "C:\\Users\\asus1\\OneDrive\\Attachments\\__Programming\\Winning Camp\\DSA\\_Shortcut.cpp"
 using namespace std;
 
-
 //Problem on XOR
 // Find that single number which is repeating once in array , other elements repeating exactly twice 
     // TC : O(n) 
@@ -29,13 +28,14 @@ void Swap_Two_Num_without_third_variable(int &var1, int &var2){
 
 // Given N, print the xor of  1 to N ;  1^2^3^…^N
     // TC : O(1)
-    // There is pattern to solve this question ... after every four consecutive number , same pattern repeating
+    // There is pattern to solve this question ... 
+    // after every four consecutive number , same pattern repeating
 int xor_of_number_between_1_to_N(int N){
     int xor_;
-    if(N%4 == 1) xor_ = 1;
+    if(N%4 == 0) xor_ = N;
+    else if(N%4 == 1) xor_ = 1;
     else if(N%4 == 2) xor_ = N+1;
     else if(N%4 == 3) xor_ = 0;
-    else if(N%4 == 0) xor_ = N;
 
     return xor_;
 }
@@ -52,21 +52,33 @@ int Missing_Number(vector<int> nums){
     return xor_N;
 }
 
-void bits_representation(int n, string &binary){
+string bits_representation(int n){
+    string binary = "";
     while(n){
         binary += to_string(n&1);
         n = (n>>1);
     }
     reverse(binary.begin(), binary.end());
+    return binary;
 }
 
+string inverse_bits_representation(int n){
+    string binary = "";
+    while(n){
+        if((n&1)==0) binary += to_string(1);
+        else binary += to_string(0);
+
+        n = (n>>1);
+    }
+    reverse(binary.begin(), binary.end());
+    return binary;
+}
 
 bool power_of_2(int N){
     if((N&(N-1)) == 0) return true; //main condition to be power of 2
     else return false;
 
 }
-
 
 bool power_of_4(int N){
     int zeroes = 0; 
@@ -80,9 +92,6 @@ bool power_of_4(int N){
     if((N&(N-1)) == 0 && zeroes%2 == 0) return true; //main condition to be power of 4
     else return false;
 }
-
-
-
 
 
 
@@ -102,18 +111,42 @@ vector<vector<int>> subsets_using_bits(vector<int> nums){
     return powerset;   
 }
 
+bool pow_(int num){
+    while(num>1){
+        if((num%2)!=0) return false;
+        num = num/2;
+    }
+    return true;
+}
 
 int main(){
 
 // Note: 
     // decimal_num >> i == int(decimal_num / pow(2,i))  ; right-shift operator 
-    cout<<((10>>3) == int(10/pow(2,3)))<<endl;
+    // cout<<((10>>3) == int(10/pow(2,3)))<<endl;
 
     // decimal_num << i == decimal_num * pow(2,i)  ; left-shift operator 
-    cout<<((10<<4) == 10*pow(2,4))<<endl;
+    // cout<<((10<<4) == 10*pow(2,4))<<endl;
 
     // decimal_num & 1 == decimal_num % 2;
-    cout<<((11&1) == 11%2)<<endl;
+    // cout<<((11&1) == 11%2)<<endl;
+
+    //Upper Case to Lower Case
+    // char upper_ch = 'A';
+    // char lower_ch = upper_ch | (1<<5); 
+    // cout<<lower_ch<<endl;
+
+    // Above, instead of (1<<5) we can use (' ') ; 
+    // Logic is to setting the 6th bit of uppercase binary representation . So, we need bit mask -: 100000. Hence, (1<<5) = 100000 and binary represntation of (' ') = 100000.
+
+    //lower Case to upper Case
+    // char lower_ch = 'a';
+    // char upper_ch = lower_ch & ~(1<<5); // logic is to unsetting the 6th bit of lowercase binary repreentation
+    // cout<<upper_ch<<endl;
+
+    // Above, instead of ~(1<<5) we can use ('_') ; 
+    // Logic : is to unsetting the 6th bit of lowercase binary representation . So, we need bit mask -: 1011111. Hence, ~(1<<5) = 1011111 and binary represntation of ('_') = 1011111.
+
 
 
 
@@ -123,6 +156,7 @@ int main(){
 
     // vector<int> arr = {2,1,2,3,1,3,4,5,6,5,6};
     // cout<<"Single number repeating with odd times : "<<find_Non_Repeating_Num(arr)<<endl;
+
 
 // 2. Swap two numbers without using any third variable
     
@@ -139,6 +173,7 @@ int main(){
     // int N = 10;
     // cout << "xor of all number between 1 to " << N << " is " << xor_of_number_between_1_to_N(N) << endl;
     
+
 // 4. Given range (L,R), print the total xor of number between L to R
     // TC : O(1)
     // Logic : (1^2^3^4^5^6^7^8^9^10) ^ (1^2) = (3^4^5^6^7^8^9^10) 
@@ -148,12 +183,12 @@ int main(){
 
     // cout << "xor of all number between " << L << " to " << R << " is " << (xor_of_number_between_1_to_N(R) ^  xor_of_number_between_1_to_N(L-1))  << endl;
     
+
 // 5. A Missing Number in range (1,N)
     // TC : O(N)
 
     // vector<int> nums = {8,6,5,2,7,9,3,1,0};
     // cout<<"Missing number in given range : "<< Missing_Number(nums)<<endl;
-
 
 
 //Problem Based on and(&) operator
@@ -166,7 +201,41 @@ int main(){
     // power_of_4(N)? cout<<N<<" is power of 4"<<endl : cout<<N<<" is not power of 4"<<endl;
 
 // Check if the ith bit is set
+    // int num = 11;
+    // int i = 3; 
+
+    // int bit_mask = (1<<i-1);
+
+    // cout<<"bit_mask: "<< bits_representation(bit_mask) <<endl;
     
+    // ((num & bit_mask) == 0) ? cout<<i<<"th bit of "<< bits_representation(num) <<" is not set!"<<endl : cout<<i<<"th bit of "<<bits_representation(num)<<" is set!"<<endl;
+
+
+// Set ith bit
+    // int num = 11;
+    // int i = 3; 
+
+    // int bit_mask = (1<<i-1);
+
+    // cout<<"bit_mask: "<< bits_representation(bit_mask) <<endl;
+    
+    // cout<<"Before set ith bit "<< bits_representation(num) <<endl;
+    // num = num | bit_mask;  //setting ith bit
+    // cout<<"After set ith bit "<< bits_representation(num) <<endl;
+
+
+// Clear ith bit
+    // int num = 11;
+    // int i = 2; 
+
+    // int bit_mask = (1<<i-1);
+
+    // cout<<"~bit_mask: "<< inverse_bits_representation(bit_mask) <<endl;
+    
+    // cout<<"Before clear ith bit "<< bits_representation(num) <<endl;
+    // num = num & (~bit_mask);  //clearing ith bit
+    // cout<<"After clear ith bit "<< bits_representation(num) <<endl;
+
 
 
 // Subset using bits 
@@ -174,5 +243,6 @@ int main(){
     // vector<int> nums = {1,2};
     // cout<<"Subsets are: "<<endl;
     // print_2D_vector(subsets_using_bits(nums));
+
 
 }

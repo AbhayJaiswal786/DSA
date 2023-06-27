@@ -32,14 +32,60 @@ void binary_search(int arr[],int key,int len_arr){
     }
 }
 
-void max_value(int arr[], int n){
-    int max=INT_MIN; 
+void largest_value(int arr[], int n){
+    int largest=INT_MIN; 
     for(int i=0;i<n;i++){
-        if(arr[i]>max){
-            max=arr[i];
+        if(arr[i]>largest){
+            largest=arr[i];
         }
     }
-    cout<<"maximum value: "<<max<<endl;
+    cout<<"largest value: "<<largest<<endl;
+}
+
+int sec_largest(vector<int> arr){
+    int n = arr.size();
+    sort(arr.begin(), arr.end());
+
+    int largest = arr[n-1];
+    int sec_lar = -1;
+    for(int i = n-2; i>=0; i--){
+        if(arr[i]>sec_lar && arr[i]<largest) sec_lar = arr[i];
+    }
+    return sec_lar;
+}
+
+//second largest better approach
+int sec_largest_better(vector<int> arr){
+    int n = arr.size();
+    int largest = INT_MIN;
+    for(int i = 0; i<n; i++){
+        if(arr[i]>largest) largest = arr[i];
+    }
+
+    int sec_largest = -1;
+    for(int i = 0; i<n; i++){
+        if(arr[i]>sec_largest && arr[i]!=largest) sec_largest = arr[i];
+    }
+
+    return sec_largest;
+}
+
+//second largest optimized approach
+int sec_largest_optimized(vector<int> arr){
+    int n = arr.size();
+    int largest = arr[0];
+    int sec_largest = INT_MIN;
+
+    for(int i = 0; i<n; i++){
+        if(arr[i]>largest){
+            sec_largest = largest;
+            largest = arr[i];
+        }
+
+        else if(arr[i]<largest && arr[i]>sec_largest) sec_largest = arr[i];
+    }
+
+    return sec_largest;
 }
 
 void min_value(int arr[],int n){
@@ -572,7 +618,7 @@ int isCommon(int *stu_list, int strength, int key){
 
 //Remove duplicates from sorted array
 //Naive Approach
-vector<int> removeDuplicates_Naive_App(vector<int> &nums){
+vector<int> removeDuplicates_Naive_App(vector<int> nums){
     for(int i=0;i<(nums.size()-1);i++){  
         for(int j=i+1;j<(nums.size());j++){
             if(nums.at(i)==nums.at(j)){
@@ -587,18 +633,220 @@ vector<int> removeDuplicates_Naive_App(vector<int> &nums){
     return nums;
 }
 
-//Two Pointer Approach 
-vector<int> removeDuplicates_Two_Pointer_App(vector<int> &nums){
-    int j;
-    for(int i=0;i<nums.size()-1;i++){
-        j=i+1;
-        if(nums.at(i)==nums.at(j)){
-            nums.erase(nums.begin()+j);
-            --i;
+vector<int> removeDuplicates_in_place_Better(vector<int> arr){
+    int n = arr.size();
+    set<int> st;
+    for(int i = 0; i<n; i++) st.insert(arr[i]);
+
+    int idx = 0;
+    for(auto it: st){
+        arr[idx] = it;
+        idx++;
+    }
+
+    return arr;    
+}
+
+//Two Pointer Approach ; Optimized
+vector<int> removeDuplicates_Two_Pointer_App(vector<int> arr){
+    int n = arr.size();
+    int i = 0; //first pointer
+    for(int j = 1; j<n; j++){ //second pointer
+        if(arr[j]!=arr[i]){
+            arr[i+1]=arr[j];
+            i++;
         }
     }
-    return nums;
+    return arr;    
 }
+
+void left_rotate_array_by_one_place(vector<int> &arr){
+    int n = arr.size();
+    int first_ele = arr[0];
+
+    for(int i = 1; i<n; i++){
+        arr[i-1] = arr[i];
+    }
+    arr[n-1] = first_ele;
+
+}
+
+void left_rotate_array_by_D_place_Better(vector<int> &arr, int D){
+    int n = arr.size();
+    vector<int> temp(D,0);
+    
+    if(D>n) D=D%n;
+    
+    for(int i = 0; i<D; i++){
+        temp[i] = arr[i];
+    }
+
+    for(int i = D; i<n; i++){
+        arr[i-D] = arr[i];
+    }
+
+    for(int i = 0; i<D; i++){
+        arr[n-D+i] = temp[i];
+    }
+}
+
+//Optimized in terms of space only 
+void left_rotate_array_by_D_place_Optimized(vector<int> &arr, int D){
+    int n = arr.size();
+    reverse(arr.begin(),arr.begin()+D-1);
+    reverse(arr.begin()+D, arr.end());
+    reverse(arr.begin(), arr.end());
+}
+
+void move_all_zeroes_to_end_brute(vector<int> &arr){
+    int n = arr.size();
+    vector<int> temp;
+
+    for(int i = 0; i<n; i++){
+        if(arr[i]!=0) temp.push_back(arr[i]);
+    }
+
+    for(int i = 0; i<n; i++){
+        if(i<temp.size()) arr[i]=temp[i];
+        else arr[i] = 0;
+    }
+}
+
+//Two Pointer Approach 
+void move_all_zeroes_to_end_optimized(vector<int> &arr){
+    int n = arr.size();
+    int i = -1;
+    for(int idx = 0; idx<n; idx++){
+        if(arr[idx]==0) {
+            i = idx;
+            break;
+        }
+    }
+
+    for(int j = i+1; j<n; j++){
+        if(arr[j]!=0){
+            swap(arr[j],arr[i]);
+            i++;
+        }
+    }
+}
+
+vector<int> union_of_two_sorted_arrays_brute(vector<int> arr1, vector<int> arr2){
+    int n1 = arr1.size();
+    int n2 = arr2.size();
+
+    set<int> st;
+
+    for(int i = 0; i<n1; i++){
+        st.insert(arr1[i]);
+    } 
+
+    for(int i = 0; i<n2; i++){
+        st.insert(arr2[i]);
+    } 
+
+    vector<int> union_ele;
+    
+    for(auto it: st){
+        union_ele.push_back(it);
+    }
+
+    return union_ele;
+}
+
+vector<int> union_of_two_sorted_arrays_brute(vector<int> arr1, vector<int> arr2){
+    int n1 = arr1.size();
+    int n2 = arr2.size();
+
+    vector<int> union_ele;
+    int i = 0, j = 0;
+
+    while(i<n1 && j<n2){
+        if(arr1[i] <= arr2[j]){
+            if(union_ele.size()==0 || arr1[i]!=union_ele.back()){
+                union_ele.push_back(arr1[i]);
+            }
+            i++;
+        }
+
+        else{
+            if(union_ele.size()==0 || arr2[j]!=union_ele.back()){
+                union_ele.push_back(arr2[j]);
+            }
+            j++;
+        }
+    }
+
+    while(i<n1){
+        if(union_ele.size()==0 || arr1[i]!=union_ele.back()){
+            union_ele.push_back(arr1[i]);
+        }
+        i++;
+    }
+
+    while(j<n2){
+        if(union_ele.size()==0 || arr2[j]!=union_ele.back()){
+            union_ele.push_back(arr2[j]);
+        }
+        j++;
+    }
+
+    return union_ele;
+}
+
+vector<int> intersection_of_two_arrays_brute(vector<int> arr1, vector<int> arr2){
+    int n1 = arr1.size();
+    int n2 = arr2.size();
+
+    vector<int> vis(n2,0);
+    vector<int> intersection_arr;
+
+    for(int i = 0; i<n1; i++){
+        for(int j = 0; j<n2; j++){
+            if(arr1[i] == arr2[j] && vis[j]==0){
+                intersection_arr.push_back(arr1[i]);
+                vis[j] = 1;
+                break;// if we arr1[i] element intersect at arr2[j] then break, b/c we don't need to check further for that "current arr1[i]"
+            }
+            if(arr2[j] > arr1[i]) break; // if we get bigger element in arr2 at j for arr1[i] then it means further we will not get arr1[i].
+        }
+    }
+    return intersection_arr;
+}
+
+vector<int> intersection_of_two_arrays_optimal(vector<int> arr1, vector<int> arr2){
+    int n1 = arr1.size();
+    int n2 = arr2.size();
+
+    vector<int> ans;
+    int i = 0, j = 0;
+    while(i<n1 && j<n2){
+        if(arr1[i]==arr2[j]){
+            ans.push_back(arr1[i]);
+            i++;
+            j++;
+        }
+        else if(arr1[i]<arr2[j]) i++;
+        else if(arr2[j]<arr1[i]) j++;
+    }
+
+    return ans;
+}
+
+//Longest subarray with given sum k brute
+int longest_Subarray_with_given_sum_k_brute(vector<int> arr, int k){
+    int n = arr.size();
+    int longest = INT_MIN;
+    
+    for(int i = 0; i<n; i++){
+        int sum = 0;
+        for(int j = i; j<n; j++){
+            sum+=arr[j];
+            if(sum==k) longest = max(longest,j-i+1);
+        }
+    }
+    return longest;
+} 
 
 
 int main(){
@@ -727,5 +975,8 @@ int main(){
     // //Two Pointer Approach
     // vector<int> num={7,7,8,8,8,9,9,10,10,10,11};
     // print_vector(removeDuplicates_Two_Pointer_App(num));
+
+    
+    
 
 }

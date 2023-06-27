@@ -12,7 +12,7 @@ void print_array(int arr[], int n)
 
 void print_vector(vector<int> vec)
 {
-    cout<<endl;
+    // cout<<endl;
     for (int i = 0; i < vec.size(); i++)
     {
         cout << vec[i] << " ";
